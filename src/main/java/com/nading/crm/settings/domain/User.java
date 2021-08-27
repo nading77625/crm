@@ -1,19 +1,49 @@
 package com.nading.crm.settings.domain;
 
 public class User {
-    private String id;
-    private String loginAct;
-    private String name;
-    private String loginPwd;
-    private String email;
-    private String expireTime;
-    private String lockState;
-    private String deptno;
-    private String allowIps;
-    private String createTime;
-    private String createBy;
-    private String editTime;
-    private String editBy;
+    /*
+        关于字符串中表现的日期和时间。常用的两种方式
+        日期：年月日
+            yyyy-MM-dd 10位字符串
+        日期+时间：年月日时分秒 19位字符串
+            yyyy-MM-dd HH:mm:ss
+     */
+    /*
+        关于登录
+            验证账号和密码
+            User user = 执行sql语句 select * from tbl_user where loginAct=? and loginPwd=?
+            user对象为null，说明账号密码错误
+            如果user对象不是null，说明账号密码正确
+            需要继续向下验证其他的字段信息
+            从user中get到
+            expireTime 验证失效时间
+                int count = expireTime.compareTo(currentTime);  <0 说明失效
+            lockState  验证锁定状态
+                0为锁，1为不锁
+            allowIps   验证浏览器的ip地址是否有效
+                String ip = "192.168.1.1";
+                String allowIps = "192.168.1.1,192.168.1.2";
+                if(allowIps.contains(ip)){
+                    System.out.println("有效的ip地址")
+                }else{
+                    System.out.println("无效的ip地址")
+                }
+
+
+     */
+    private String id;// 编号 主键
+    private String loginAct;//登录账号
+    private String name;//
+    private String loginPwd;//登录密码
+    private String email;//邮箱
+    private String expireTime;//失效时间 19
+    private String lockState;//锁定状态
+    private String deptno;//部门标号
+    private String allowIps;//允许访问的ip地址
+    private String createTime;//创建时间 19
+    private String createBy;//创建人
+    private String editTime;//修改时间 19
+    private String editBy;//修改人
 
     public String getId() {
         return id;
