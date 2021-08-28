@@ -6,6 +6,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <html>
 <head>
 	<base href="<%=basePath%>">
+<%--	加了base路径 相对路径全部失效，必须为绝对路径--%>
 <meta charset="UTF-8">
 <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>

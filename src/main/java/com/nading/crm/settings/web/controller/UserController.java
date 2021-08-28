@@ -39,8 +39,11 @@ public class UserController extends HttpServlet {
         //UserService us = new UserServiceImpl();
         //未来业务层开发，统一使用代理类形态的接口对象
         UserService us = (UserService) ServiceFactory.getService(new UserServiceImpl());
+
         try{
             User user = us.login(loginAct,loginPwd,ip);
+            //System.out.println(us);
+
             request.getSession().setAttribute("user",user);
             /*
                 程序执行到此处，说明业务层没有为controller抛出任何的异常，表示登录成功
