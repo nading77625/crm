@@ -25,6 +25,14 @@
          // }//点击按钮编辑想要的效果
 
          $(function(){
+           $("#date").blur(function () {
+                //alert($("#date").val())
+               var date = $("#date").val()
+               //alert(date.substr(0,4))
+               //20201010
+               var newDate = date.substr(0,4) + "-" + date.substr(4,2) + "-" + date.substr(6,2)
+               $("#date").val(newDate)
+           })
            $("#loginUser").focus()//当页面加载完毕账号栏自动获取焦点
 
            $("#buttonSub").click(function () {
@@ -86,6 +94,7 @@
         <input type="button" id="buttonSub" value="login">
     </form>
     <span id="exMsg" style="color: red"></span>
+    <br>日期：<input type="text" id="date">
 
 </body>
 </html>

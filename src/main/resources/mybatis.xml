@@ -7,6 +7,7 @@
     <typeAliases>
 <!--        别名-->
         <package name="com.nading.crm.settings.domain"/>
+        <package name="com.nading.crm.workbench.domain"/>
     </typeAliases>
 
     <environments default="dev">
@@ -22,5 +23,6 @@
     </environments>
     <mappers>
         <package name="com.nading.crm.settings.dao"/>
+        <package name="com.nading.crm.workbench.dao"/>
     </mappers>
 </configuration>

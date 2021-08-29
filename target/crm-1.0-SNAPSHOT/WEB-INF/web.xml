@@ -15,6 +15,15 @@
         <url-pattern>/settings/user/login.do</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ActivityController</servlet-name>
+        <servlet-class>com.nading.crm.workbench.web.controller.ActivityController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivityController</servlet-name>
+        <url-pattern>/workbench/activity/getUserList.do</url-pattern>
+        <url-pattern>/workbench/activity/save.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>OneServlet</servlet-name>
         <servlet-class>com.nading.crm.test.OneServlet</servlet-class>
     </servlet>
