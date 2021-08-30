@@ -1,5 +1,6 @@
 package com.nading.crm.workbench.web.controller;
 
+import com.nading.crm.VO.PaginationVO;
 import com.nading.crm.settings.domain.User;
 import com.nading.crm.settings.service.UserService;
 import com.nading.crm.settings.service.impl.UserServiceImpl;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Service;
 import java.io.IOException;
 import java.security.acl.Owner;
 import java.util.HashMap;
@@ -41,8 +43,45 @@ public class ActivityController extends HttpServlet {
         String owner = request.getParameter("owner");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
-        String pageNo = request.getParameter("pageNo");
-        String pageSize = request.getParameter("pageSize");
+        String pageNoStr = request.getParameter("pageNo");
+        String pageSizeStr = request.getParameter("pageSize");
+        int pageNo = Integer.valueOf(pageNoStr);
+        //每页展现的记录数
+        int pageSize = Integer.valueOf(pageSizeStr);
+
+        //计算出略过的记录数
+        int skipCount = (pageNo - 1) * pageSize;
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("owner" , owner);
+        map.put("startDate" , startDate);
+        map.put("endDate" , endDate);
+        map.put("pageNo" , skipCount);
+        map.put("pageSize" , pageSize);
+
+        //ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        ActivityService as = new ActivityServiceImpl();
+        /*
+            前端需要：市场活动信息列表
+                    查询的总条数
+
+                    业务层拿到了以上两条信息之后，如果做返回
+                    map
+                        map.put("dataList",dataList);
+                        map.put("total",total);
+                        PrintJson map ---->Json
+                        {"dataList":[{1},{2},{3}],""total":100}
+
+                    vo:
+                        PaginationVO<T>
+                            private int total;
+                            private List<T> dataList;
+         */
+
+        PaginationVO<Activity> vo = as.pageList(map);
+        PrintJson.printJsonObj(response,vo);
+        //p80 5:53
 
     }
 
