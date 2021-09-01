@@ -34,8 +34,81 @@ public class ActivityController extends HttpServlet {
             this.save(request,response);
         }else if("/workbench/activity/pageList.do".equals(path)){
             this.pageList(request,response);
+        }else if("/workbench/activity/delete.do".equals(path)){
+            this.delete(request,response);
+        }else if("/workbench/activity/getUserListAndActivity.do".equals(path)){
+            this.getUserListAndActivity(request,response);
+        }else if("/workbench/activity/update.do".equals(path)){
+            this.update(request,response);
+        }else if("/workbench/activity/detail.do".equals(path)){
+            this.detail(request,response);
         }
     }
+
+    private void detail(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("跳转到详细页面");
+        String id = request.getParameter("id");
+        ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        Activity a = act.detail(id);
+        request.setAttribute("a",a);
+        try {
+            request.getRequestDispatcher("detail.jsp").forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("修改市场活动信息");
+        String name = request.getParameter("name");
+        String id = request.getParameter("id");
+        String owner = request.getParameter("owner");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        String cost = request.getParameter("cost");
+        String description = request.getParameter("description");
+        String editTime = DateTimeUtil.getSysTime();
+        String editteBy = ((User) request.getSession().getAttribute("user")).getName();
+        ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        Activity a = new Activity();
+        a.setId(id);
+        a.setOwner(owner);
+        a.setName(name);
+        a.setEndDate(endDate);
+        a.setStartDate(startDate);
+        a.setCost(cost);
+        a.setDescription(description);
+        a.setEditTime(editTime);
+        a.setEditBy(editteBy);
+        boolean flag = act.update(a);
+        PrintJson.printJsonFlag(response,flag);
+
+    }
+
+    private void getUserListAndActivity(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入修改市场活动信息操作");
+        String id = request.getParameter("id");
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        /*
+            UList
+            市场活动对象
+         */
+        Map<String,Object> map = as.getUserListAndActivity(id);
+
+        PrintJson.printJsonObj(response,map);
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("进入到删除市场活动信息列表操作");
+        String[] ids = request.getParameterValues("id");
+        ActivityService as = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = as.delete(ids);
+        PrintJson.printJsonFlag(response,flag);
+    }
+
 
     private void pageList(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("进入到市场活动信息列表的操作，结合条件查询+分页查询");
@@ -94,6 +167,8 @@ public class ActivityController extends HttpServlet {
         String endDate = request.getParameter("endDate");
         String cost = request.getParameter("cost");
         String description = request.getParameter("description");
+        //System.out.println(name);
+
         String createTime = DateTimeUtil.getSysTime();
         String createBy = ((User) request.getSession().getAttribute("user")).getName();
         ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());

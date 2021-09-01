@@ -525,7 +525,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			type : "get",
 			dataType : "json",
 			success : function (data) {
-
+				//alert(data.dataList.name)
 				/*
 
 					data
@@ -543,7 +543,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 				//每一个n就是每一个市场活动对象
 				$.each(data.dataList,function (i,n) {
-
+					//alert(n.name)
 					html += '<tr class="active">';
 					html += '<td><input type="checkbox" name="xz" value="'+n.id+'"/></td>';
 					html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/activity/detail.do?id='+n.id+'\';">'+n.name+'</a></td>';
