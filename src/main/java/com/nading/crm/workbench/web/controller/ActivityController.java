@@ -9,6 +9,7 @@ import com.nading.crm.utils.PrintJson;
 import com.nading.crm.utils.ServiceFactory;
 import com.nading.crm.utils.UUIDUtil;
 import com.nading.crm.workbench.domain.Activity;
+import com.nading.crm.workbench.domain.ActivityRemark;
 import com.nading.crm.workbench.service.ActivityService;
 import com.nading.crm.workbench.service.impl.ActivityServiceImpl;
 
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.ws.Service;
 import java.io.IOException;
 import java.security.acl.Owner;
@@ -42,7 +44,61 @@ public class ActivityController extends HttpServlet {
             this.update(request,response);
         }else if("/workbench/activity/detail.do".equals(path)){
             this.detail(request,response);
+        }else if("/workbench/activity/getRemarkListByAid.do".equals(path)){
+            this.getRemarkListByAid(request,response);
+        }else if("/workbench/activity/deleteRemark.do".equals(path)){
+            this.deleteRemark(request,response);
+        }else if("/workbench/activity/saveRemark.do".equals(path)){
+            this.saveRemark(request,response);
         }
+    }
+
+    private void saveRemark(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("saveRemark");
+        String content = request.getParameter("noteContent");
+        String id = UUIDUtil.getUUID();
+        String aId = request.getParameter("activityId");//在哪个市场活动保存备注
+        String createTime = DateTimeUtil.getSysTime();
+        //System.out.println(request.getAttribute("a")); null
+        //System.out.println(a.getCreateBy());
+        String createBy = ((User) request.getSession().getAttribute("user")).getName();
+        String editTime = "";
+        String editBy = "";
+        String editFlag = "0";
+        ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        ActivityRemark ar = new ActivityRemark();
+        ar.setActivityId(aId);
+        ar.setId(id);
+        ar.setCreateBy(createBy);
+        ar.setEditBy(editBy);
+        ar.setCreateTime(createTime);
+        ar.setNoteContent(content);
+        ar.setEditTime(editTime);
+        ar.setEditFlag(editFlag);
+
+        boolean flag = act.saveRemark(ar);
+        if(flag = true){
+            Map<String,Object > map = new HashMap<>();
+            map.put("success",flag);
+            map.put("ar",ar);
+            PrintJson.printJsonObj(response,map);
+        }
+    }
+
+    private void deleteRemark(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = act.deleteRemark(id);
+        if(flag == true){
+            PrintJson.printJsonFlag(response,flag);
+        }
+    }
+
+    private void getRemarkListByAid(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("activityId");
+        ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        List<ActivityRemark> list = act.getRemarkListByAid(id);
+        PrintJson.printJsonObj(response,list);
     }
 
     private void detail(HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +127,7 @@ public class ActivityController extends HttpServlet {
         String cost = request.getParameter("cost");
         String description = request.getParameter("description");
         String editTime = DateTimeUtil.getSysTime();
-        String editteBy = ((User) request.getSession().getAttribute("user")).getName();
+        String editBy = ((User) request.getSession().getAttribute("user")).getName();
         ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
         Activity a = new Activity();
         a.setId(id);
@@ -82,7 +138,7 @@ public class ActivityController extends HttpServlet {
         a.setCost(cost);
         a.setDescription(description);
         a.setEditTime(editTime);
-        a.setEditBy(editteBy);
+        a.setEditBy(editBy);
         boolean flag = act.update(a);
         PrintJson.printJsonFlag(response,flag);
 
@@ -168,7 +224,6 @@ public class ActivityController extends HttpServlet {
         String cost = request.getParameter("cost");
         String description = request.getParameter("description");
         //System.out.println(name);
-
         String createTime = DateTimeUtil.getSysTime();
         String createBy = ((User) request.getSession().getAttribute("user")).getName();
         ActivityService act = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());

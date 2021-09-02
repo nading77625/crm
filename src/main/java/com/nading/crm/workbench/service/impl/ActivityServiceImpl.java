@@ -91,4 +91,30 @@ public class ActivityServiceImpl implements ActivityService {
         Activity a = activityDao.detail(id);
         return a;
     }
+
+    @Override
+    public List<com.nading.crm.workbench.domain.ActivityRemark> getRemarkListByAid(String id) {
+        List<com.nading.crm.workbench.domain.ActivityRemark> list = activityRemarkDao.getRemarkListByAid(id);
+        return list;
+    }
+
+    @Override
+    public boolean deleteRemark(String id) {
+        boolean flag = false;
+        int count = activityRemarkDao.deleteRemark(id);
+        if(count != 0){
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean saveRemark(com.nading.crm.workbench.domain.ActivityRemark ar) {
+        boolean flag = true;
+        int count = activityRemarkDao.saveRemark(ar);
+        if(count != 1){
+            flag = false;
+        }
+        return flag;
+    }
 }
