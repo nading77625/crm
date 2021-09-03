@@ -29,4 +29,13 @@
     <insert id="saveRemark">
         insert into tbl_activity_remark values (#{id},#{noteContent},#{createTime},#{createBy},#{editTime},#{editBy},#{editFlag},#{activityId})
     </insert>
+
+    <update id="updateRemark">
+        update tbl_activity_remark set
+        editFlag=#{editFlag},
+        noteContent=#{noteContent},
+        editTime=#{editTime},
+        editBy=#{editBy}
+        where id=#{id}
+    </update>
 </mapper>

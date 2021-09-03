@@ -117,4 +117,14 @@ public class ActivityServiceImpl implements ActivityService {
         }
         return flag;
     }
+
+    @Override
+    public boolean updateRemark(com.nading.crm.workbench.domain.ActivityRemark ar) {
+        boolean flag = true;
+        int count = activityRemarkDao.updateRemark(ar);
+        if(count != 1){
+            flag = false;
+        }
+        return flag;
+    }
 }

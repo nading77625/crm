@@ -12,4 +12,6 @@ public interface ActivityRemark {
     int deleteRemark(String id);
 
     int saveRemark(com.nading.crm.workbench.domain.ActivityRemark ar);
+
+    int updateRemark(com.nading.crm.workbench.domain.ActivityRemark ar);
 }
