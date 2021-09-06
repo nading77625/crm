@@ -32,6 +32,17 @@
         <url-pattern>/workbench/activity/saveRemark.do</url-pattern>
         <url-pattern>/workbench/activity/updateRemark.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CuleController</servlet-name>
+        <servlet-class>com.nading.crm.workbench.web.controller.ClueController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CuleController</servlet-name>
+        <url-pattern>/workbench/Clue/xxx.do</url-pattern>
+
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>OneServlet</servlet-name>
         <servlet-class>com.nading.crm.test.OneServlet</servlet-class>
@@ -57,4 +68,7 @@
         <url-pattern>*.do</url-pattern>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+    <listener>
+        <listener-class>com.nading.crm.web.listener.SysInitListener</listener-class>
+    </listener>
 </web-app>
