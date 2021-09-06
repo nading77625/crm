@@ -3,6 +3,7 @@ package com.nading.crm.web.listener;
 
 import com.nading.crm.settings.domain.DicValue;
 import com.nading.crm.settings.service.DicService;
+import com.nading.crm.settings.service.impl.DicServiceImpl;
 import com.nading.crm.utils.ServiceFactory;
 import com.nading.crm.workbench.service.ClueService;
 import com.nading.crm.workbench.service.impl.ClueServiceImpl;
@@ -26,7 +27,7 @@ public class SysInitListener implements ServletContextListener {
          */
         System.out.println("服务器处理缓存字典开始");
         ServletContext application = sce.getServletContext();
-        DicService ds = (DicService) ServiceFactory.getService(new ClueServiceImpl());
+        DicService ds = (DicService) ServiceFactory.getService(new DicServiceImpl());
         Map<String, List<DicValue>> map = ds.getAll();
         Set<String> set = map.keySet();
         for(String key:set){

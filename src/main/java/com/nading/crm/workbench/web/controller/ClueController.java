@@ -11,7 +11,9 @@ import com.nading.crm.utils.UUIDUtil;
 import com.nading.crm.workbench.domain.Activity;
 import com.nading.crm.workbench.domain.ActivityRemark;
 import com.nading.crm.workbench.service.ActivityService;
+import com.nading.crm.workbench.service.ClueService;
 import com.nading.crm.workbench.service.impl.ActivityServiceImpl;
+import com.nading.crm.workbench.service.impl.ClueServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,11 +29,18 @@ public class ClueController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("进入到线索控制器");
         String path = request.getServletPath();
-        if("/workbench/clue/xx.do".equals(path)){
-            //this.(request,response);
+        if("/workbench/clue/getUserList.do".equals(path)){
+            this.getUserList(request,response);
         }else if("/workbench/clue/xxx.do".equals(path)){
             //this.(request,response);
         }
+    }
+
+    private void getUserList(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("获得用户信息");
+        UserService cs = (UserService) ServiceFactory.getService(new UserServiceImpl());
+        List<User> list = cs.getUserList();
+        PrintJson.printJsonObj(response,list);
     }
 
 }
