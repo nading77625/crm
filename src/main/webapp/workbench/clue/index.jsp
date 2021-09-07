@@ -166,7 +166,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-appellation">
 								  <option></option>
-								  <c:forEach items="${appellationList}" var="a">
+								  <c:forEach items="${appellation}" var="a">
 									  <option value="${a.value}">${a.text}</option>
 								  </c:forEach>
 								</select>
@@ -208,7 +208,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-state">
 								  <option></option>
-									<c:forEach items="${clueStateList}" var="c">
+									<c:forEach items="${clueState}" var="c">
 										<option value="${c.value}">${c.text}</option>
 									</c:forEach>
 								</select>
@@ -220,7 +220,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-source">
 								  <option></option>
-									<c:forEach items="${sourceList}" var="s">
+									<c:forEach items="${source}" var="s">
 										<option value="${s.value}">${s.text}</option>
 									</c:forEach>
 								</select>
@@ -555,7 +555,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<tbody>
 						<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.do?id=464072f8e0234409981c8940c9d6a506';">马云先生</a></td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/clue/detail.do?id=841706550f5e444d8a96d7bd27264a33';">wenkai</a></td>
 							<td>动力节点</td>
 							<td>010-84846003</td>
 							<td>12345678901</td>
